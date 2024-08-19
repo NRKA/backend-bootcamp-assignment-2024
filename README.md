@@ -26,3 +26,40 @@
   make test
   ```
 + Перед запуском тестов необходимо сначала поднять базу с помощью docker-compose up, а затем запустить тесты.
+
+## ВАЖНО
++ Перед проверкой запросов с помощью curl необходимо учитывать, что я использую валидаторы для получаемых запросов, и мой валидатор приближен к реальным условиям. Также имейте в виду, что для некоторых конечных точек, таких как flatCreate, я передаю данные в теле запроса в специфическом формате, поскольку там есть поля ID и Number (номер квартиры).
+## CURL Запросы
+### dummyLogin
+```
+curl -X GET localhost:8080/dummyLogin?user_type=client -i
+curl -X GET localhost:8080/dummyLogin?user_type=moderator -i
+```
+### login
+```
+curl -X POST localhost:8080/login -d '{"id":id, "password":"password"}' -i
+```
+### register
+```
+curl -X POST localhost:8080/register -d '{"email": "test@gmail.com","password": "Секретная строка","user_type": "moderator"}' -i
+```
+### houseID
+```
+curl -X GET localhost:8080/house/id -H "Authorization: Bearer token" -i
+```
+### houseID subscribe
+```
+curl -X POST localhost:8080/house/id/subscribe -d '{"email":"test@gmail.com"}' -H "Authorization: Bearer token" -i
+```
+### flatCreate
+```
+curl -X POST localhost:8080/flat/create -d '{"number":123,"house_id":123,"price":123213,"rooms":4}' -H "Authorization: Bearer token" -i
+```
+### houseCreate
+```
+curl -X POST localhost:8080/house/create -d '{"address":"Лесная улица, 7, Москва, 125196","year": 2000,"developer":"Мэрия города"}' -H "Authorization: Bearer token" -i
+```
+### flatUpdate
+```
+curl -X POST localhost:8080/flat/update -d '{"id":123456,"status":"approved"}' -H "Authorization: Bearer token" -i
+```
