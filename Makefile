@@ -1,10 +1,3 @@
-export DB_NAME=test
-export DB_HOST=localhost
-export DB_PORT=5432
-export DB_USER=test
-export DB_PASSWORD=test
-export TOPIC=crud
-
 ifeq ($(POSTGRES_SETUP_TEST),)
 	POSTGRES_SETUP_TEST := user=test password=test dbname=test host=localhost port=5432 sslmode=disable
 endif
@@ -28,6 +21,6 @@ test-migration-down:
 test-environment:
 	docker-compose up -d
 
-.PHONY: test-unit-test
-test-unit-test:
+.PHONY: test
+test:
 	go test ./... -cover

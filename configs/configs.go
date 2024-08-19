@@ -14,13 +14,16 @@ const (
 	dbName     = "DB_NAME"
 )
 
-func FromEnv() postgres.DatabaseConfig {
-	godotenv.Load()
+func FromEnv() (postgres.DatabaseConfig, error) {
+	if err := godotenv.Load(); err != nil {
+		return postgres.DatabaseConfig{}, err
+	}
+
 	return postgres.DatabaseConfig{
 		Host:     os.Getenv(dbHost),
 		Port:     os.Getenv(dbPort),
 		User:     os.Getenv(dbUser),
 		Password: os.Getenv(dbPassword),
 		Name:     os.Getenv(dbName),
-	}
+	}, nil
 }

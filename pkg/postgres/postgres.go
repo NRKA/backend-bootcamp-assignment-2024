@@ -54,3 +54,15 @@ func (db Database) Exec(ctx context.Context, query string, args ...interface{}) 
 func (db Database) ExecQueryRow(ctx context.Context, query string, args ...interface{}) pgx.Row {
 	return db.cluster.QueryRow(ctx, query, args...)
 }
+
+func (db Database) BeginTx(ctx context.Context) (pgx.Tx, error) {
+	return db.cluster.Begin(ctx)
+}
+
+func (db Database) CommitTx(ctx context.Context, tx pgx.Tx) error {
+	return tx.Commit(ctx)
+}
+
+func (db Database) RollbackTx(ctx context.Context, tx pgx.Tx) error {
+	return tx.Rollback(ctx)
+}
