@@ -39,6 +39,10 @@ func (suite *flatHandlerSuite) SetupSuite() {
 	suite.handler = NewHandler(db)
 }
 
+func (suite *flatHandlerSuite) SetupTest() {
+	suite.clearTestDB(suite.db)
+}
+
 func (suite *flatHandlerSuite) TestCreateFailDecoding() {
 	invalidRequestBody := `{"number": 101, "house_id": 1, "price": 1000, "rooms": "three"}`
 

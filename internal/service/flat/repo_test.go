@@ -37,23 +37,6 @@ func (suite *flatRepoSuite) SetupTest() {
 	suite.clearTestDB(suite.db)
 }
 
-func (suite *flatRepoSuite) clearTestDB(db *postgres.Database) {
-	ctx := context.Background()
-	tables := []string{"house", "flat"} // Укажите все таблицы, которые нужно очистить
-	_, err := db.Exec(ctx, "SET session_replication_role = 'replica'")
-	suite.Require().NoError(err)
-
-	for _, table := range tables {
-		_, err := db.Exec(ctx, fmt.Sprintf("TRUNCATE %s CASCADE", table))
-		suite.Require().NoError(err)
-	}
-
-	_, err = db.Exec(ctx, "SET session_replication_role = 'origin'")
-	suite.Require().NoError(err)
-
-	fmt.Println("Test database cleared successfully")
-}
-
 func (suite *flatRepoSuite) TestCreateFlatSuccessful() {
 	ctx := context.Background()
 	houseID := suite.insertTestHouse(ctx, "123 Test St", 2022)
@@ -149,6 +132,23 @@ func (suite *flatRepoSuite) insertTestHouse(ctx context.Context, address string,
 	`, address, year).Scan(&houseID)
 	suite.Require().NoError(err)
 	return houseID
+}
+
+func (suite *flatRepoSuite) clearTestDB(db *postgres.Database) {
+	ctx := context.Background()
+	tables := []string{"house", "flat"} // Укажите все таблицы, которые нужно очистить
+	_, err := db.Exec(ctx, "SET session_replication_role = 'replica'")
+	suite.Require().NoError(err)
+
+	for _, table := range tables {
+		_, err := db.Exec(ctx, fmt.Sprintf("TRUNCATE %s CASCADE", table))
+		suite.Require().NoError(err)
+	}
+
+	_, err = db.Exec(ctx, "SET session_replication_role = 'origin'")
+	suite.Require().NoError(err)
+
+	fmt.Println("Test database cleared successfully")
 }
 
 func (suite *flatRepoSuite) fromEnv() postgres.DatabaseConfig {

@@ -189,7 +189,7 @@ func (suite *authHandlerSuite) TestLoginUserNotFound() {
 
 	suite.Require().EqualValues(http.StatusNotFound, w.Code)
 
-	suite.Require().EqualValues(w.Body.String(), "User not found")
+	suite.Require().EqualValues("User not found\n", w.Body.String())
 }
 
 func (suite *authHandlerSuite) TestLoginInvalidPassword() {
