@@ -3,7 +3,6 @@ package house
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/NRKA/backend-bootcamp-assignment-2024/internal/service/auth"
 	"github.com/NRKA/backend-bootcamp-assignment-2024/internal/usecase"
 	"github.com/NRKA/backend-bootcamp-assignment-2024/pkg/postgres"
@@ -49,8 +48,6 @@ func (h Handler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h Handler) Flats(w http.ResponseWriter, r *http.Request) {
-	ss := r.PathValue("id")
-	fmt.Println(ss)
 	id, err := strconv.Atoi(r.PathValue("id"))
 	if err != nil {
 		http.Error(w, "id must be integer", http.StatusBadRequest)
