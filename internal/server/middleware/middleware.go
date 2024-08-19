@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"context"
-	auth2 "github.com/NRKA/backend-bootcamp-assignment-2024/internal/service/auth"
+	"github.com/NRKA/backend-bootcamp-assignment-2024/internal/service/auth"
 	"net/http"
 	"strings"
 )
@@ -23,14 +23,14 @@ func TokenAuthenticator(next http.Handler) http.Handler {
 
 		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
 
-		claims, err := auth2.ParseToken(tokenString)
+		claims, err := auth.ParseToken(tokenString)
 		if err != nil {
 			switch err {
-			case auth2.ErrTokenExpired:
+			case auth.ErrTokenExpired:
 				http.Error(w, "Token expired", http.StatusUnauthorized)
-			case auth2.ErrTokenNotValidYet:
+			case auth.ErrTokenNotValidYet:
 				http.Error(w, "Token not valid yet", http.StatusUnauthorized)
-			case auth2.ErrTokenInvalid:
+			case auth.ErrTokenInvalid:
 				http.Error(w, "Invalid token", http.StatusUnauthorized)
 			default:
 				http.Error(w, "Unauthorized", http.StatusUnauthorized)
@@ -45,7 +45,7 @@ func TokenAuthenticator(next http.Handler) http.Handler {
 
 func AuthOnly(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		claims := r.Context().Value(claimsKey).(*auth2.Claims)
+		claims := r.Context().Value(claimsKey).(*auth.Claims)
 		if claims.Role != client && claims.Role != moderator {
 			http.Error(w, "Forbidden", http.StatusForbidden)
 			return
@@ -56,7 +56,7 @@ func AuthOnly(next http.Handler) http.Handler {
 
 func ModerationOnly(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		claims := r.Context().Value(claimsKey).(*auth2.Claims)
+		claims := r.Context().Value(claimsKey).(*auth.Claims)
 		if claims.Role != moderator {
 			http.Error(w, "Forbidden", http.StatusForbidden)
 			return
