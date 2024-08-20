@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS "user" (
 CREATE TABLE IF NOT EXISTS house (
     id BIGSERIAL PRIMARY KEY NOT NULL,
     address VARCHAR(255) NOT NULL,
-    year INT NOT NULL CHECK (year >= 0),
+    year INT NOT NULL,
     developer VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -19,10 +19,10 @@ CREATE TABLE IF NOT EXISTS house (
 
 CREATE TABLE IF NOT EXISTS flat (
     id BIGSERIAL PRIMARY KEY NOT NULL,
-    number INT NOT NULL CHECK (number > 0),
+    number INT NOT NULL,
     house_id INT NOT NULL,
-    price INT NOT NULL CHECK (price > 0),
-    rooms INT NOT NULL CHECK (rooms > 0),
+    price INT NOT NULL,
+    rooms INT NOT NULL,
     status VARCHAR(255) DEFAULT 'created',
     UNIQUE (number, house_id),
     CONSTRAINT fk_house
