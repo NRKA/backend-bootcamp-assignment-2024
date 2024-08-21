@@ -1,4 +1,5 @@
 # Нуралиев Кадриддин | Avito Backend Bootcamp
+[![Build](https://github.com/NRKA/backend-bootcamp-assignment-2024/actions/workflows/build.yml/badge.svg)](https://github.com/NRKA/backend-bootcamp-assignment-2024/actions/workflows/build.yml)
 
 ## Установка и конфигурация
 + Склонировать репозиторий:
