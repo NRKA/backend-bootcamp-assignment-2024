@@ -18,7 +18,6 @@ func NewRepo(db *postgres.Database) *Repo {
 	}
 }
 
-// curl -X POST localhost:8080/house/create -d '{"address":"someaddr","year":2000,"developer":"devvvvv"}' -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZHVtbXktbW9kZXJhdG9yLWlkIiwicm9sZSI6Im1vZGVyYXRvciIsImV4cCI6MTcyNDA3OTI5NywiaXNzIjoieW91ci1hcHAifQ.UHEVxEug9p8ISy1ylDjE6rbiMG1rgi2YWCdWYCu18Yw"
 func (repo *Repo) Create(ctx context.Context, house usecase.HouseCreateRequest) (usecase.House, error) {
 	var response usecase.House
 
